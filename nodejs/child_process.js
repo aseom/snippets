@@ -9,13 +9,12 @@ process.stdout.write(result.stdout)
 console.log(`Process ${result.pid} exited with code ${result.status}\n`)
 
 // Async
-// Inherit parent process's stdin/stderr, except stdout
+// Use parent's stdin/stderr, fzf interface would be displayed through stderr
 var fzf = childPs.spawn('fzf', { stdio: [process.stdin, 'pipe', process.stderr] })
 var stdoutBuff = undefined
 
 fzf.stdout.on('data', (buffer) => {
-  // Write stdout + save to `stdoutBuff` variable
-  process.stdout.write(buffer)
+  // Save fzf stdout to `stdoutBuff` variable
   stdoutBuff = buffer
 })
 
